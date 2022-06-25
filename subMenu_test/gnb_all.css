@@ -1,0 +1,100 @@
+/*common*/
+*{margin:0; padding: 0;}
+ul,li{list-style-type: none;}
+a{text-decoration: none; color: black;}
+.blind{
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    border: 0;
+    width: 1px;
+    height: 1px;
+    clip:rect(1px,1px,1px,1px);
+}
+.clear:after{content:""; display: block; clear:both;}
+
+/*header*/
+
+header
+{
+    position: absolute;
+    left: 0;right : 0;top:0;
+    height: 50px;
+    overflow: hidden;
+    background:linear-gradient(white 50px,rgba(255,255,255,0.5) 50px,
+    rgba(255,255,255,0.5));
+}
+
+header::after
+{
+    content:"";
+    position: absolute;top:50px;left:0px;
+    background: #666;
+    width: 100%;
+    height: 2px;
+}
+
+.inner
+{
+    width: 1200px;
+    margin:0 auto;
+}
+
+h1
+{
+    float: left;
+}
+
+/*주메뉴*/
+nav
+{
+    position: absolute;
+    left: 50%;
+    top:0;
+    transform: translateX(-50%);
+}
+
+.sns
+{
+    float: right;
+}
+
+.gnb > li,
+.sns > li
+{
+    float:left;
+    line-height: 50px;
+}
+
+.gnb > li a,
+.sns > li a
+{
+    padding: 0 20px;
+    color: #666;
+}
+
+.gnb > li a span
+{
+    position: relative;
+}
+
+.gnb > li > a span:after
+{
+    content:"";
+    position: absolute;left:50%;bottom: -14px;
+    width: 0;
+    height: 2px;
+    background: #f00;
+    transition: all .5s;
+}
+
+.gnb > li:hover span:after
+{
+    width: 100%;
+    left: 0;
+}
+
+.nav > ul > li ul
+{
+    width: 100%;
+}

@@ -7,7 +7,7 @@ $(function(){
 
     //depth1에 마우스가 올라가면 header의 길이를 300px로 올려라
     depth1.mouseenter(function(){
-        header.stop().animate({height:"300px"});
+        header.stop().animate({height:"350px"});
     }).mouseleave(function(){
         header.stop().animate({height:"50px"});
     });

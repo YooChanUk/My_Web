@@ -16,25 +16,25 @@
 </head>
 
 <body>
-  
+
   <header>
     <div class="inner">
     <h1><a href="gnb_all.html">My Web</a></h1>
     <h2 class="blind">주메뉴</h2>
     <nav>
         <ul class="gnb clear">
-          <li><a href="HTML page.html"><span>언어관련</span></a>
+          <li><a href="#"><span>언어관련</span></a>
               <ul>
-                  <li><a href="../HTML page.html">HTML</a></li>
-                  <li><a href="../CSS page.html">CSS</a></li>
-                  <li><a href="../JavaScript page.html">JavaScript</a></li>
-                  <li><a href="Java page.html">Java</a></li>
+                  <li><a href="HTML page.html">HTML</a></li>
+                  <li><a href="#">CSS</a></li>
+                  <li><a href="#">JavaScript</a></li>
+                  <li><a href="#">Java</a></li>
               </ul>
           </li>
-          <li><a href="#"><span>나를 소개</span></a>
+          <li><a href="#"><span>menu2</span></a>
               <ul>
-                <li><a href="Hobby page.html">취미</a></li>
-                <li><a href="#">이력</a></li>
+                <li><a href="#">menu2-1</a></li>
+                <li><a href="#">menu2-2</a></li>
                 <li><a href="#">menu2-3</a></li>
                 <li><a href="#">menu2-4</a></li>
                 <li><a href="#">menu2-5</a></li>
@@ -53,7 +53,7 @@
           <li><a href="../index.html"><span>돌아가기!</span></a>
             
               <ul>
-                <li><a href="../copy1_Web/home.html">따라 만들기</a></li>
+                <li><a href="#">menu4-1</a></li>
                 <li><a href="#">menu4-2</a></li>
                 <li><a href="#">menu4-3</a></li>
               </ul>
@@ -71,37 +71,13 @@
   </div>
   </header>
 
-  <div class = "intro_bg">
-  </div>
+  <div class = "intro_bg"></div>
 
-  <main>
-    <ui class = "amount">
-      <li>
-          <div>
-              <div class ="contents1">Git 주소</div>
-              <div class ="result"><a href="https://github.com/YooChanUk">https://github.com/YooChanUk</a></div>
-          </div>
-      </li>
-     <li>
-          <div>
-              <div class ="contents1"></div>
-              <div class ="result"></div>
-          </div>
-      </li>
-      <li>
-          <div>
-              <div class ="contents1"></div>
-              <div class ="result"></div>
-          </div>
-      </li>
-      <li>
-          <div>
-              <div class ="contents1"></div>
-              <div class ="result"></div>
-          </div>
-      </li>
-  </ui>
-    
-  </main>
+  <!--Main Start-->
+    <main>
+        <div class="mainspace">
+            이곳은 메인이 들어갑니다.
+        </div>
+    </main>
 </body>
 </html>

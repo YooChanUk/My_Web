@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div>Teachable Machine Image Model</div>
+        <button type="button" onclick="init()">Start</button>
+		<button type="button" onclick="predict()">예측</button>
+        <div class="file-upload">
+            <button
+                class="file-upload-btn"
+                type="button"
+                onclick="$('.file-upload-input').trigger('click')"
+            >
+                Add Image
+            </button>
+
+            <div class="image-upload-wrap">
+                <input
+                    class="file-upload-input"
+                    type="file"
+                    onchange="readURL(this);"
+                    accept="image/*"
+                />
+                <div class="drag-text">
+                    <h3>Drag and drop a file or select add Image</h3>
+                </div>
+            </div>
+            <div class="file-upload-content">
+                <img class="file-upload-image" id ="food-image" src="#" alt="your image" />
+            </div>
+        </div>
+
+        <!-- <div id="caption-container">
+            <h2>Generated Captions:</h2>
+            <ul id="caption-list" class="list-group"></ul>
+        </div> -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="script.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+        <div id="label-container"></div>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+        <script>
+            // Update the URL below with the server-side script URL that handles image processing and caption generation.
+            const serverURL = 'http://127.0.0.1:8000/uploadfile';
+
+            // Function to read and display the selected image
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        // Hide the initial upload UI
+                        $('.image-upload-wrap').hide();
+                        // Set the source of the image preview to the selected image
+                        $('.file-upload-image').attr('src', e.target.result);
+                        // Show the image preview
+                        $('.file-upload-content').show();
+                    };
+
+                    // Read the selected image file
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            // Trigger the file input dialog on button click
+            $('.file-upload-btn').on('click', function () {
+                $('.file-upload-input').trigger('click');
+                // e.preventDefault();
+                // let token = sessionStorage.getItem('token');
+                // let formdata = new FormData();
+                // formdata.append('in_file', document.getElementById("media").files[0]);
+                // fetch('http://127.0.0.1:8000/uploadfile/', {
+                //   method: 'POST',
+                //   body: formdata,
+                // headers: {
+                //   'content-type': 'multipart/form-data'
+                // }
+                // })
+                // .then(res => res.json())
+                // .then(data => {
+                //   console.log(data)
+                // })
+            });
+
+            // Handle image upload and caption generation
+            $('.file-upload-input').on('change', function () {
+                const fileInput = this;
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const formData = new FormData();
+                    console.log(file);
+                    formData.append('in_file', file);
+
+                    // Send image file to the server for processing
+                    fetch('http://localhost:8000/uploadfile', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            accept: 'application/json',
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            console.log(data);
+                            const captions = data.captions;
+                            const captionList = document.getElementById('caption-list');
+                            captionList.innerHTML = '';
+
+                            // Display generated captions
+                            captions.forEach((caption) => {
+                                const listItem = document.createElement('li');
+                                listItem.textContent = caption;
+                                listItem.className = 'list-group-item';
+                                captionList.appendChild(listItem);
+                            });
+
+                            // Show the caption container
+                            document.getElementById('caption-container').style.display = 'block';
+                        })
+                        .catch((error) => console.error('laudaaaaaaaaa'));
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            // More API functions here:
+            // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+            // the link to your model provided by Teachable Machine export panel
+            const URL = 'https://teachablemachine.withgoogle.com/models/RwKzBRQ9S/';
+
+            let model, webcam, labelContainer, maxPredictions;
+
+            // Load the image model and setup the webcam
+            async function init() {
+                const modelURL = URL + 'model.json';
+                const metadataURL = URL + 'metadata.json';
+
+                // load the model and metadata
+                // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+                // or files from your local hard drive
+                // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+
+                labelContainer = document.getElementById('label-container');
+                for (let i = 0; i < maxPredictions; i++) {
+                    // and class labels
+                    labelContainer.appendChild(document.createElement('div'));
+                }
+				
+            }
+
+            // run the webcam image through the image model
+            async function predict() {
+                // predict can take in an image, video or canvas html element
+				var image = document.getElementById("food-image")
+				
+                const prediction = await model.predict(image,false);
+                for (let i = 0; i < maxPredictions; i++) {
+                    const classPrediction =
+                        prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
+                    labelContainer.childNodes[i].innerHTML = classPrediction;
+                }
+            }
+        </script>
+    </body>
+    <!-- Copyright (c) 2023 by Aman Verma (https://codepen.io/Aman-Verma-the-typescripter/pen/NWEWNQv)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ -->
+</html>
